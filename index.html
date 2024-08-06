@@ -59,8 +59,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>公司抬頭名稱比對工具</h1>
-        <h3>原始資料與比對資料表頭需要包含 id 與 name， id 是統編， name 是抬頭。</h3>
+        <h1>公司資料比對工具</h1>
         <div class="file-input">
             <label for="originalFile">上傳原始資料檔案 (CSV)：</label>
             <input type="file" id="originalFile" accept=".csv">
@@ -99,16 +98,17 @@
 
         function compareData(originalData, inputData) {
             const originalDict = {};
+            // 假設原始數據的列順序為：id, type, name
             for (let i = 1; i < originalData.length; i++) {
-                originalDict[originalData[i][0]] = originalData[i][1];
+                originalDict[originalData[i][0]] = originalData[i][2]; // 使用 id 和 name
             }
 
             comparisonResult = inputData.map((row, index) => {
                 if (index === 0) {
                     return [...row, '核對結果'];
                 }
-                const id = row[0];
-                const name = row[1];
+                const id = row[0];  // 假設輸入數據的第一列是 id
+                const name = row[1]; // 假設輸入數據的第二列是 name
                 let result;
                 if (id in originalDict) {
                     if (name === originalDict[id]) {
